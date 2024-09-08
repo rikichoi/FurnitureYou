@@ -5,6 +5,10 @@ import Logo from "@/app/assets/logo.png";
 import { redirect } from "next/navigation";
 import ShoppingCartButton from "./ShoppingCartButton";
 import { getCart } from "@/lib/db/cart";
+import UserProfileButton from "./UserProfileButton";
+import { useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/authOptions";
 
 async function searchProducts(formData: FormData) {
   "use server";
@@ -17,9 +21,10 @@ async function searchProducts(formData: FormData) {
 }
 
 export default async function Navbar() {
-    const cart = await getCart();
+  const cart = await getCart();
+  const session = await getServerSession(authOptions);
   return (
-    <div className="navbar bg-base-100 flex-col sm:flex-row">
+    <div className="navbar flex-col bg-base-100 sm:flex-row">
       <div className="flex-1">
         <Link href={"/"} className="btn btn-ghost text-xl">
           <Image alt="Logo Image" src={Logo} height={40} width={40} />
@@ -36,8 +41,8 @@ export default async function Navbar() {
             />
           </div>
         </form>
-        <ShoppingCartButton cart={cart}/>
-
+        <ShoppingCartButton cart={cart} />
+        <UserProfileButton session={session} />
       </div>
     </div>
   );
