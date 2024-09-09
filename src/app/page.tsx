@@ -1,3 +1,4 @@
+import PaginationBar from "@/components/PaginationBar";
 import ProductCard from "@/components/ProductCard";
 import prisma from "@/lib/db/prisma";
 import Image from "next/image";
@@ -11,7 +12,7 @@ export default async function Home() {
   });
 
   return (
-    <div>
+    <div className="items-center flex flex-col gap-3">
       <div className="hero rounded-xl bg-base-200">
         <div className="hero-content flex-col lg:flex-row">
           <Image
@@ -39,6 +40,7 @@ export default async function Home() {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+      <PaginationBar/>
     </div>
   );
 }

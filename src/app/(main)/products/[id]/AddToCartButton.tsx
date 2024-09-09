@@ -5,6 +5,7 @@ import { start } from "repl";
 
 type AddToCartButtonProps = {
   productId: string;
+  incrementProductQuantity: (productId: string) => Promise<void>;
 };
 
 export default function AddToCartButton({ productId }: AddToCartButtonProps) {
@@ -40,7 +41,7 @@ export default function AddToCartButton({ productId }: AddToCartButtonProps) {
         </svg>
       </button>
       {isPending && <span className="loading loading-lg"></span>}
-      {!isPending && success && (
+      {!isPending && success === true && (
         <span className="badge badge-success">Added to cart</span>
       )}
     </div>

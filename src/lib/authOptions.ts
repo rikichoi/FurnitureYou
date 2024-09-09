@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import { NextAuthOptions } from "next-auth"
 import { Adapter } from "next-auth/adapters"
 import Google from "next-auth/providers/google"
+import { mergeUniqueCartIntoUserCart } from "./db/cart"
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma) as Adapter,
@@ -17,5 +18,10 @@ export const authOptions: NextAuthOptions = {
             session.user.id = user.id
             return session;
         }
+    },
+    events: {
+        async signIn({ user }) {
+            await mergeUniqueCartIntoUserCart(user.id)
+        },
     }
 }
