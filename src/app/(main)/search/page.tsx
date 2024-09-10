@@ -8,6 +8,12 @@ type SearchPageProps = {
   };
 };
 
+export async function generateMetadata({ searchParams }: SearchPageProps) {
+  return {
+    title: searchParams.query + " - FurnitureYou",
+  };
+}
+
 export default async function SearchPage({
   searchParams: { query },
 }: SearchPageProps) {
@@ -31,7 +37,7 @@ export default async function SearchPage({
     orderBy: { id: "desc" },
   });
   return (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
