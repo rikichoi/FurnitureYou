@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 type PaginationBarProps = {
@@ -5,14 +6,21 @@ type PaginationBarProps = {
   totalPages: number;
 };
 
-export default function PaginationBar({currentPage, totalPages}: PaginationBarProps) {
-    const maxPage= Math.min(totalPages, Math.max(currentPage + 4, 10))
-    return (
-    <div className="btn-primary join mx-auto">
-      <button className="btn join-item">1</button>
-      <button className="btn join-item btn-active">2</button>
-      <button className="btn join-item">3</button>
-      <button className="btn join-item">4</button>
-    </div>
-  );
+export default function PaginationBar({
+  currentPage,
+  totalPages,
+}: PaginationBarProps) {
+  const maxPage = Math.min(totalPages, Math.max(currentPage + 4, 10));
+  const minPage = Math.max(1, Math.min(currentPage - 5, totalPages - 9));
+
+  const numberedPageItems = [];
+  for (let page = minPage; page <= maxPage; page++) {
+    numberedPageItems.push(
+      <Link scroll={false} className={`${currentPage == page ? " pointer-events-none btn-active ": " "} btn join-item`} href={`?page=${page}`} key={page}>
+        {page}
+      </Link>,
+    );
+  }
+
+  return <div className="join flex btn-primary">{numberedPageItems}</div>;
 }
